@@ -1,0 +1,153 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:commons="sap.ui.commons" xmlns:mc="sap.suite.ui.microchart" xmlns:l="sap.ui.layout" controllerName="SFS.controller.Object">
+	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>objectTitle}" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+		<semantic:content>
+			<ObjectHeader id="objectHeader" title="{ path: 'ProductionOrder', formatter: '.formatter.ommitLeadingZero' } / {OperationStep}" titleActive="false" titlePress="onShowDetailPopover" responsive="true" icon="https://sapui5.hana.ondemand.com/sdk/test-resources/sap/ui/demokit/explored/img/HT-1114.jpg" number="{ path: 'QuantityProduced', formatter: '.formatter.numberUnit' }" numberUnit="{UnitOfMeasure}">
+				<statuses>
+					<ObjectStatus class="sapUiSmallMarginBottom" text="{parts:[{path: 'ProductionStarted'},{path:'InterruptStarted'}], formatter:'.formatter.operationStatusTextFormatter'}" state="{parts:[{path: 'ProductionStarted'},{path:'InterruptStarted'}], formatter:'.formatter.operationStatusStateFormatter'}" icon="{path: 'InterruptStarted', formatter:'.formatter.operationStatusIconFormatter'}"/>
+				</statuses>
+				<attributes>
+					<!--<ObjectIdentifier-->
+					<!--	title="{MaterialNumber}"-->
+					<!--	text="MaterialDescription">-->
+		
+					<!--</ObjectIdentifier>-->
+					<ObjectAttribute text="{MaterialNumber}"/>
+					<ObjectAttribute text="{MaterialDescription}"/>
+				</attributes>
+			</ObjectHeader>
+			<f:Form id="FormChange354" editable="true" backgroundDesign="Transparent">
+				<f:layout>
+					<f:ResponsiveGridLayout labelSpanL="3" labelSpanM="3" labelSpanS="12" emptySpanL="1" emptySpanM="1" emptySpanS="1" columnsL="4" columnsM="2" breakpointL="800" breakpointM="400"/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer id="idContainerOperationProduction">
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<commons:Button id="idButtonStartProduction" text="{i18n>buttonProductionTitle}" width="200px" icon="{= ${ProductionStarted} === true ? 'sap-icon://stop' : 'sap-icon://restart'}" height="4rem" styled="true" lite="false" style="{= ${ProductionStarted} === true ? 'Reject' : 'Accept'}" press="onPressProductionStartStop"/>
+									<!--<Button id="idButtonStartProduction" width="150px" text="{i18n>buttonProductionTitle}"-->
+									<!--	type="{= ${ProductionStarted} === true ? 'Reject' : 'Accept'}" press="onPressProductionStartStop"-->
+									<!--	icon="{= ${ProductionStarted} === true ? 'sap-icon://stop' : 'sap-icon://restart'}"/>-->
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+				<f:formContainers>
+					<f:FormContainer id="idContainerOperationInterrupt">
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<commons:Button id="idButtonStartInterrupt" text="{i18n>buttonInterruptionTitle}" width="200px" icon="{= ${InterruptStarted} === true ? 'sap-icon://stop' : 'sap-icon://restart'}" height="4rem" styled="true" lite="false" style="{= ${InterruptStarted} === true ? 'Reject' : 'Accept'}" press="onPressProductionInterrupt"/>
+									<!--<Button id="idButtonStartInterrupt" width="150px" text="{i18n>buttonInterruptionTitle}"-->
+									<!--	type="{= ${InterruptStarted} === true ? 'Reject' : 'Accept'}" press="onPressProductionInterrupt"-->
+									<!--	icon="{= ${InterruptStarted} === true ? 'sap-icon://stop' : 'sap-icon://restart'}"/>-->
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer id="idContainerOperationFinish">
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<commons:Button id="idButtonFinish" text="{i18n>buttonFinishTitle}" width="200px" height="4rem" styled="true" lite="false" icon="sap-icon://complete" style="Accept" press="onPressOperationFinish"/>
+									<!--<Button id="idButtonFinish" text="{i18n>buttonFinishTitle}" width="150px" type="Accept" icon="sap-icon://complete" enabled="true"-->
+									<!--	press="onPressOperationFinish"/>-->
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					<f:FormContainer id="idContainerOperationInput">
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<commons:Button id="idButtonStartInput" text="{i18n>buttonInputTitle}" width="200px" height="4rem" styled="true" lite="false" icon="sap-icon://number-sign" style="Default" press="onShowInputPopover"/>
+									<!--<Button id="idButtonStartInput" text="{i18n>buttonInputTitle}" width="150px" type="Default" enabled="true" press="onShowInputPopover"-->
+									<!--	icon="sap-icon://number-sign"/>-->
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			<IconTabBar selectedKey="idTabComponents" id="idTabBar">
+				<items>
+					<IconTabFilter text="{i18n>tabCompTitle}" id="idTabComponents" icon="sap-icon://action-settings" iconColor="Positive" count="5">
+						<content>
+							<Table items="{ path:'Operation2Components'}" mode="None" inset="false" updateFinished="onComponentsLoaded" id="tableComponents">
+								<columns>
+									<Column>
+										<Text text="{i18n>colCompMaterialTitle}"/>
+									</Column>
+									<Column>
+										<Text text="{i18n>colCompMaterialDescrTitle}"/>
+									</Column>
+									<Column>
+										<Text text="{i18n>colCompQtyTitle}"/>
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem vAlign="Middle" type="Inactive">
+										<cells>
+											<Text text="{Matnr}" wrapping="false"/>
+											<Text text="{Maktx}" wrapping="false"/>
+											<ObjectNumber number="{Bdmng}" unit="{Meins}"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter text="{i18n>tabDrawingsTitle}" count="1" icon="sap-icon://task" iconColor="Positive" id="__filter1">
+					    <content>
+					        <!--<Image width="140px" height="140px" id="__image0"/>-->
+					        <Image src="images/onderdeel.png"/>
+					    </content>
+					</IconTabFilter>
+					
+					<IconTabFilter text="{i18n>tabProgressTitle}" icon="sap-icon://shipping-status" iconColor="Positive" id="__filter2">
+						<content>
+							<f:SimpleForm maxContainerCols="2">
+								<f:content>
+									<Toolbar>
+										<Title text="{i18n>progress}" level="H1" titleStyle="H1"/>
+									</Toolbar>
+									<FlexBox alignItems="Start" justifyContent="Start" direction="Column">
+										<items>
+											<Panel>
+												<content>
+													<mc:RadialMicroChart fraction="{parts:[{path: 'QuantityProduced'}],formatter:'.formatter.progressQtyFormatter'}" total="{parts:[{path: 'QuantityPlanned'}],formatter:'.formatter.progressQtyFormatter'}" valueColor="{parts:[{path: 'QuantityProduced'},{path: 'QuantityPlanned'}],formatter:'.formatter.progressValueColorFormatter'}"/>
+												</content>
+											</Panel>
+										</items>
+									</FlexBox>
+									<Toolbar>
+										<Title text="{i18n>performance}" level="H1" titleStyle="H1"/>
+									</Toolbar>
+									<FlexBox alignItems="Start" justifyContent="Start">
+										<items>
+											<Panel>
+												<content>
+													<mc:RadialMicroChart fraction="{parts:[{path: 'TimeActual'}],formatter:'.formatter.progressQtyFormatter'}" total="{parts:[{path: 'TimePlanned'}],formatter:'.formatter.progressQtyFormatter'}" valueColor="{parts:[{path: 'TimeActual'},{path: 'TimePlanned'}],formatter:'.formatter.progressValueColorFormatter'}"/>
+												</content>
+											</Panel>
+										</items>
+									</FlexBox>
+								</f:content>
+							</f:SimpleForm>
+						</content>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</semantic:content>
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction id="shareInJam" visible="{FLP>/isShareInJamActive}" press="onShareInJamPress"/>
+		</semantic:shareInJamAction>
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton id="shareTile" title="{objectView>/saveAsTileTitle}"/>
+		</semantic:saveAsTileAction>
+	</semantic:FullscreenPage>
+</mvc:View>

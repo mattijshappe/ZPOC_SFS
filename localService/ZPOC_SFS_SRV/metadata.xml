@@ -1,0 +1,85 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZPOC_SFS_SRV" xml:lang="nl" sap:schema-version="1">
+            <EntityType Name="Operation" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="ProductionOrder"/>
+                    <PropertyRef Name="OperationStep"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="ProductionOrder" Type="Edm.String" Nullable="false" MaxLength="12" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="OperationStep" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="WorkcenterId" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Activity" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ActivityStatus" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ProductionStarted" Type="Edm.Boolean" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="InterruptStarted" Type="Edm.Boolean" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MaterialNumber" Type="Edm.String" Nullable="false" MaxLength="18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MaterialDescription" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StartdatePlanned" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="QuantityPlanned" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unit="UnitOfMeasure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="QuantityProduced" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unit="UnitOfMeasure" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimePlanned" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unit="TimeUnit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeActual" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:unit="TimeUnit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TimeUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SearchField" Type="Edm.String" Nullable="false" MaxLength="30" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+            </EntityType>
+            <EntityType Name="Workcenter" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="WorkcenterId"/>
+                </Key>
+                <Property Name="WorkcenterId" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WorkcenterDescription" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WorkcenterDefault" Type="Edm.Boolean" Nullable="false" sap:label="Teken" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Employee" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" MaxLength="8" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Name" Type="Edm.String" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZPOC_SFS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="OperationSet" EntityType="ZPOC_SFS_SRV.Operation" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="WorkcenterSet" EntityType="ZPOC_SFS_SRV.Workcenter" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="EmployeeSet" EntityType="ZPOC_SFS_SRV.Employee" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <FunctionImport Name="StopProduction" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                </FunctionImport>
+                <FunctionImport Name="StopInterrupt" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                </FunctionImport>
+                <FunctionImport Name="Input" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="UnitOfMeasure" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="Quantity" Type="Edm.Decimal" Mode="In" Precision="2" Scale="2"/>
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                </FunctionImport>
+                <FunctionImport Name="StartProduction" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                </FunctionImport>
+                <FunctionImport Name="StartInterrupt" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                </FunctionImport>
+                <FunctionImport Name="Finish" ReturnType="ZPOC_SFS_SRV.Operation" EntitySet="OperationSet" m:HttpMethod="GET">
+                    <Parameter Name="OperationStep" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="ProductionOrder" Type="Edm.String" Mode="In" MaxLength="12"/>
+                </FunctionImport>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZPOC_SFS_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZPOC_SFS_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

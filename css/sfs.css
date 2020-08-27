@@ -1,0 +1,33 @@
+.circleButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    height:300px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+       border-radius: 50%;
+}
+/*.myCustomButton.sapMBtn {*/
+/*  margin-right: 0.125rem;*/
+/*  height: 300%;*/
+/*}*/
+
+/* .myCustomButton {*/
+/*  margin-left: 0.125rem;*/
+/*  height: 300%;*/
+/*  margin-right: 0;*/
+/*}*/
+/*.myPage{*/
+/*  background:blue;*/
+/*  height: 800px;*/
+/*}*/
+
+/*.myButton{*/
+/*	display: inline-block;*/
+/*	height: 400px !important;*/
+/*  height: 300% !important;*/
+/*  color:blue;*/
+/*}*/
